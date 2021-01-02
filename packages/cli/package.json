@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test": "jest"
   },
+  "bin": "./bin/copy-template.js",
   "keywords": [],
   "author": "",
   "license": "ISC",

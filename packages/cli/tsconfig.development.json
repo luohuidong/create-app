@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true /* Generates corresponding '.map' file. */,
+    "composite": true /* Enable project compilation */,
+    "incremental": true /* Enable incremental compilation */,
+    "tsBuildInfoFile": "./tmp/.tsbuildinfo" /* Specify file to store incremental compilation information */,
+    "diagnostics": true,
+    "watch": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "test"]
+}

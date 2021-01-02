@@ -130,6 +130,12 @@ export default class CopyTemplate {
           }
         );
 
+        req.on("timeout", () => {
+          req.abort();
+          spinner.fail(`下载 ${treeItemPath} 超时`);
+          reject(`下载 ${treeItemPath} 超时`);
+        });
+
         req.on("error", (err) => {
           spinner.fail(`下载 ${treeItemPath} 失败`);
           reject(err.message);

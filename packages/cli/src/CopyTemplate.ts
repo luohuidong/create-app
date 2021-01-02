@@ -16,18 +16,9 @@ const octokit = new Octokit({
   userAgent: "@luohuidong/template-cli",
 });
 
-const timeout = 100000;
+const timeout = 10000;
 
 export default class CopyTemplate {
-  url: string;
-  dist: string;
-
-  constructor(url: string, dist: string) {
-    this.url = url;
-    this.dist = dist;
-  }
-
-  /** 获取仓库中的应用模板列表 */
   private async getTemplatesInfo(): Promise<TemplatesInfo> {
     const spinner = ora("正在请求应用模板列表").start();
     try {
@@ -73,15 +64,11 @@ export default class CopyTemplate {
           timeout,
         },
       });
+
       spinner.succeed("获取模板文件列表成功");
       return data.tree as RepoTreeInfo;
     } catch (err) {
       spinner.fail("获取模板文件列表失败");
-      console.log(
-        "🚀 ~ file: CopyTemplate.ts ~ line 91 ~ CopyTemplate ~ getRepoTreeBySha ~ err",
-        err.message
-      );
-
       throw new Error(err.message);
     }
   }
@@ -108,23 +95,43 @@ export default class CopyTemplate {
           url,
           {
             timeout,
+            headers: {
+              "User-Agent": "@luohuidong/template-cli",
+            },
           },
           (res) => {
-            const writeStream = fs.createWriteStream(path.resolve(process.cwd(), treeItemPath));
-            res.pipe(writeStream);
+            const buffers: Buffer[] = [];
+
+            res.on("data", (buffer: Buffer) => {
+              buffers.push(buffer);
+            });
 
             res.on("end", () => {
-              spinner.succeed();
-              resolve(null);
+              try {
+                // decode baser64 的内容
+                const result = Buffer.concat(buffers).toString();
+                const content = JSON.parse(result).content;
+                const buff = Buffer.from(content, "base64");
+
+                // 将 decode 的内容写到文件中
+                fs.writeFileSync(path.resolve(process.cwd(), treeItemPath), buff);
+
+                spinner.succeed(`下载 ${treeItemPath} 完成`);
+                resolve(null);
+              } catch (error) {
+                reject(error.message);
+              }
             });
+
             res.on("error", (err) => {
-              spinner.fail();
+              spinner.fail(`下载 ${treeItemPath} 失败`);
               reject(err.message);
             });
           }
         );
+
         req.on("error", (err) => {
-          spinner.fail();
+          spinner.fail(`下载 ${treeItemPath} 失败`);
           reject(err.message);
         });
       }
@@ -149,7 +156,7 @@ export default class CopyTemplate {
 
     // 获取模板的文件列表
     const repoTreeInfo = await this.getRepoTreeBySha(templateHash);
-
+    repoTreeInfo.splice(1);
     // 下载模板中的所有文件
     const promises = repoTreeInfo.map((info) => this.download(info));
     Promise.all(promises);

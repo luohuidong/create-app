@@ -6,6 +6,7 @@
   "scripts": {
     "dev:build": "tsc --project tsconfig.development.json",
     "prd:build": "tsc",
+    "prepublishOnly": "npm run prd:build",
     "lint": "eslint",
     "test": "jest"
   },

@@ -11,8 +11,16 @@
   },
   "bin": "./bin/copy-template.js",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "luohuidong (luohuidong01@126.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luohuidong/app-template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luohuidong/app-template.git"
+  },
+  "homepage": "https://github.com/luohuidong/app-template/tree/master/packages/cli",
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",

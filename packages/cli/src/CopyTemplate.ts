@@ -156,7 +156,7 @@ export default class CopyTemplate {
 
     // 获取模板的文件列表
     const repoTreeInfo = await this.getRepoTreeBySha(templateHash);
-    repoTreeInfo.splice(1);
+
     // 下载模板中的所有文件
     const promises = repoTreeInfo.map((info) => this.download(info));
     Promise.all(promises);

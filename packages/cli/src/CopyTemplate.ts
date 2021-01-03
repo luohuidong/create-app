@@ -3,14 +3,10 @@ import fs from "fs";
 import { Octokit } from "@octokit/core";
 import inquirer from "inquirer";
 import ora from "ora";
-import https from "https";
+import AdmZip from "adm-zip";
+import { recurseDir } from "./fsUtils";
 
-import type {
-  TemplatesInfo,
-  TemplateInfo,
-  RepoTreeItemInfo,
-  RepoTreeInfo,
-} from "./CopyTemplateTypes";
+import type { TemplatesInfo, TemplateInfo } from "./CopyTemplateTypes";
 
 const octokit = new Octokit({
   userAgent: "@luohuidong/template-cli",
@@ -20,12 +16,15 @@ const timeout = 10000;
 
 export default class CopyTemplate {
   private async getTemplatesInfo(): Promise<TemplatesInfo> {
-    const spinner = ora("正在请求应用模板列表").start();
+    const spinner = ora("正在请求 GitHub 仓库中的应用模板列表").start();
     try {
       const response = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
         owner: "luohuidong",
         repo: "app-template",
         path: "packages",
+        headers: {
+          Accept: "application/vnd.github.v3+json",
+        },
         request: {
           timeout,
         },
@@ -48,123 +47,92 @@ export default class CopyTemplate {
     }
   }
 
-  /**
-   * 通过 tree sha 获取模板中的文件列表
-   * @param sha
-   */
-  private async getRepoTreeBySha(sha: string) {
-    const spinner = ora("正在请求模板文件列表").start();
+  async downloadZip(): Promise<string> {
     try {
-      const { data } = await octokit.request("GET /repos/{owner}/{repo}/git/trees/{tree_sha}", {
+      const response = await octokit.request("GET /repos/{owner}/{repo}/zipball/", {
         owner: "luohuidong",
         repo: "app-template",
-        tree_sha: sha,
-        recursive: "true",
-        request: {
-          timeout,
+        headers: {
+          Accept: "application/vnd.github.v3+json",
         },
       });
 
-      spinner.succeed("获取模板文件列表成功");
-      return data.tree as RepoTreeInfo;
-    } catch (err) {
-      spinner.fail("获取模板文件列表失败");
-      throw new Error(err.message);
+      // 获取压缩的文件名称
+      const contentDisposition = response.headers["content-disposition"] as string;
+      const regexp = /filename=([\w-]+\.zip)/;
+      const result = regexp.exec(contentDisposition) as RegExpExecArray;
+      const filename = result[1];
+
+      // 将压缩文件的内容保存到本地
+      const unit8Array = response.data;
+      const fileAbsolutePath = path.resolve(process.cwd(), filename);
+      fs.writeFileSync(fileAbsolutePath, Buffer.from(unit8Array));
+      return fileAbsolutePath;
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: CopyTemplate.ts ~ line 160 ~ CopyTemplate ~ downloadZip ~ error",
+        error
+      );
+      throw new Error(error.message);
     }
   }
 
-  /**
-   * 通过文件 url 下载文件
-   * @param url
-   */
-  private download(repoTreeItemInfo: RepoTreeItemInfo) {
-    return new Promise((resolve, reject) => {
-      const { url, path: treeItemPath, type } = repoTreeItemInfo;
-
-      if (type === "tree") {
-        try {
-          fs.statSync(treeItemPath);
-        } catch (error) {
-          fs.mkdirSync(treeItemPath);
-        } finally {
-          resolve(null);
-        }
-      } else {
-        const spinner = ora(`正在下载 ${treeItemPath}`);
-        const req = https.get(
-          url,
-          {
-            timeout,
-            headers: {
-              "User-Agent": "@luohuidong/template-cli",
-            },
-          },
-          (res) => {
-            const buffers: Buffer[] = [];
-
-            res.on("data", (buffer: Buffer) => {
-              buffers.push(buffer);
-            });
-
-            res.on("end", () => {
-              try {
-                // decode baser64 的内容
-                const result = Buffer.concat(buffers).toString();
-                const content = JSON.parse(result).content;
-                const buff = Buffer.from(content, "base64");
-
-                // 将 decode 的内容写到文件中
-                fs.writeFileSync(path.resolve(process.cwd(), treeItemPath), buff);
-
-                spinner.succeed(`下载 ${treeItemPath} 完成`);
-                resolve(null);
-              } catch (error) {
-                reject(error.message);
-              }
-            });
-
-            res.on("error", (err) => {
-              spinner.fail(`下载 ${treeItemPath} 失败`);
-              reject(err.message);
-            });
-          }
-        );
-
-        req.on("timeout", () => {
-          req.abort();
-          spinner.fail(`下载 ${treeItemPath} 超时`);
-          reject(`下载 ${treeItemPath} 超时`);
-        });
-
-        req.on("error", (err) => {
-          spinner.fail(`下载 ${treeItemPath} 失败`);
-          reject(err.message);
-        });
-      }
-    });
+  unZipFile(fileAbsolutePath: string): void {
+    // reading archives
+    const zip = new AdmZip(fileAbsolutePath);
+    zip.extractAllTo(process.cwd());
   }
 
   async copy(): Promise<void> {
     const templatesInfo = await this.getTemplatesInfo();
     const templateNames = Object.keys(templatesInfo);
 
-    // 获取模板对应的 sha 值
     const answers = await inquirer.prompt([
       {
+        name: "templateName",
         type: "list",
-        name: "template",
-        message: "请选择应用模板",
+        message: "请选择模板",
         choices: templateNames,
       },
     ]);
-    const template = answers.template;
-    const templateHash = templatesInfo[template].sha;
 
-    // 获取模板的文件列表
-    const repoTreeInfo = await this.getRepoTreeBySha(templateHash);
+    const templateName = answers.templateName;
 
-    // 下载模板中的所有文件
-    const promises = repoTreeInfo.map((info) => this.download(info));
-    Promise.all(promises);
+    const spinner = ora("项目初始化中").start();
+
+    try {
+      // 下载仓库的 zip 包，并将该包压缩到当前目录
+      const zipFileAbsolutePath = await this.downloadZip();
+      this.unZipFile(zipFileAbsolutePath);
+      /** 解压后的文件夹路径 */
+      const upzipFolderAbsolutePath = zipFileAbsolutePath.replace(".zip", "");
+      /** 模板目录 */
+      const templateFolderDirPath = path.resolve(upzipFolderAbsolutePath, "packages", templateName);
+      /** 复制模板目录中的所有文件到当前工作目录 */
+      recurseDir(templateFolderDirPath, templateFolderDirPath, (fileInfo) => {
+        const currentWorkDir = process.cwd();
+
+        if (fileInfo.type === "dir") {
+          try {
+            fs.mkdirSync(path.resolve(currentWorkDir, fileInfo.relativePath));
+          } catch (error) {}
+        } else {
+          fs.copyFileSync(
+            fileInfo.absolutePath,
+            path.resolve(currentWorkDir, fileInfo.relativePath)
+          );
+        }
+      });
+
+      // 删除 zip 包和 zip 包解压出来的文件
+      fs.rmSync(zipFileAbsolutePath);
+      fs.rmSync(upzipFolderAbsolutePath, {
+        recursive: true,
+      });
+      spinner.succeed("项目初始化完毕");
+    } catch (error) {
+      spinner.fail("项目初始化失败");
+      console.log("🚀 ~ file: CopyTemplate.ts ~ line 121 ~ CopyTemplate ~ copy ~ error", error);
+    }
   }
 }

@@ -33,6 +33,7 @@
     "@tsconfig/deno": "^1.0.5",
     "@tsconfig/recommended": "^1.0.1",
     "@types/adm-zip": "^0.4.33",
+    "@types/cli-progress": "^3.8.0",
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.10",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
@@ -46,6 +47,7 @@
   },
   "dependencies": {
     "@octokit/core": "^3.2.4",
+    "adm-zip": "^0.5.1",
     "inquirer": "^7.3.3",
     "ora": "^5.2.0"
   }

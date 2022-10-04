@@ -6,7 +6,6 @@ import ora from "ora";
 import AdmZip from "adm-zip";
 
 import { recurseDir } from "./fsUtils.js";
-import type { TemplatesInfo, TemplateInfo } from "./CopyTemplateTypes.js";
 import { errMsg } from "./errMsg.js";
 
 const octokit = new Octokit({
@@ -15,7 +14,16 @@ const octokit = new Octokit({
 
 const timeout = 10000;
 
+export interface TemplateInfo {
+  name: string;
+  sha: string;
+}
+export type TemplatesInfo = {
+  [index: string]: TemplateInfo;
+};
+
 export default class CopyTemplate {
+  /** 获取模板数据 */
   private async getTemplatesInfo(): Promise<TemplatesInfo> {
     const spinner = ora("正在请求 GitHub 仓库中的应用模板列表").start();
     try {
@@ -34,7 +42,7 @@ export default class CopyTemplate {
       const templatesInfo: TemplatesInfo = {};
       const data = response.data as TemplateInfo[];
       data.forEach((templateInfo) => {
-        if (templateInfo.name !== "cli") {
+        if (templateInfo.name.startsWith("template")) {
           templatesInfo[templateInfo.name] = templateInfo;
         }
       });

@@ -1,12 +1,13 @@
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import { Octokit } from "@octokit/core";
 import inquirer from "inquirer";
 import ora from "ora";
 import AdmZip from "adm-zip";
-import { recurseDir } from "./fsUtils";
 
-import type { TemplatesInfo, TemplateInfo } from "./CopyTemplateTypes";
+import { recurseDir } from "./fsUtils.js";
+import type { TemplatesInfo, TemplateInfo } from "./CopyTemplateTypes.js";
+import { errMsg } from "./errMsg.js";
 
 const octokit = new Octokit({
   userAgent: "@luohuidong/template-cli",
@@ -43,7 +44,7 @@ export default class CopyTemplate {
       return templatesInfo;
     } catch (error) {
       spinner.fail("请求应用模板列表失败");
-      throw new Error(error.message);
+      throw new Error(errMsg(errMsg));
     }
   }
 
@@ -73,7 +74,7 @@ export default class CopyTemplate {
         "🚀 ~ file: CopyTemplate.ts ~ line 160 ~ CopyTemplate ~ downloadZip ~ error",
         error
       );
-      throw new Error(error.message);
+      throw new Error(errMsg(error));
     }
   }
 
@@ -115,7 +116,9 @@ export default class CopyTemplate {
         if (fileInfo.type === "dir") {
           try {
             fs.mkdirSync(path.resolve(currentWorkDir, fileInfo.relativePath));
-          } catch (error) {}
+          } catch (error) {
+            console.log(errMsg(error));
+          }
         } else {
           fs.copyFileSync(
             fileInfo.absolutePath,

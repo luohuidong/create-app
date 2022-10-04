@@ -1,7 +1,8 @@
-import fs from "fs";
+import fs from "node:fs";
 import inquirer from "inquirer";
 
-import CopyTemplate from "./CopyTemplate";
+import CopyTemplate from "./CopyTemplate.js";
+import { errMsg } from "./errMsg.js";
 
 const result = fs.readdirSync(process.cwd());
 
@@ -11,26 +12,21 @@ function copy() {
 }
 
 if (result.length > 0) {
-  inquirer
-    .prompt([
+  try {
+    const answers = await inquirer.prompt([
       {
         name: "folderNotEmpty",
         type: "confirm",
         message: "当前目录不是一个空目录，是否继续？",
       },
-    ])
-    .then((answers) => {
-      if (answers.folderNotEmpty) {
-        copy();
-      }
-    })
-    .catch((error) => {
-      if (error.isTtyError) {
-        // Prompt couldn't be rendered in the current environment
-      } else {
-        // Something else went wrong
-      }
-    });
+    ]);
+
+    if (answers.folderNotEmpty) {
+      copy();
+    }
+  } catch (err) {
+    console.log(errMsg(err));
+  }
 } else {
   copy();
 }

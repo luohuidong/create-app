@@ -1,8 +1,8 @@
 {
-  "name": "node-typescript-teamplate",
+  "name": "node-template",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "node template",
+  "private": true,
   "scripts": {
     "dev:build": "tsc --project tsconfig.development.json",
     "prd:build": "tsc",

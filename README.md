@@ -5,7 +5,7 @@ App Template 可用于快速搭建项目。
 ## 使用
 
 ```bash
-npm init @luohuidong/create-app
+npm init @luohuidong/app
 ```
 
 ## 模板

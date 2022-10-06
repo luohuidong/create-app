@@ -1,8 +1,7 @@
 {
-  "name": "@luohuidong/template-cli",
+  "name": "@luohuidong/create-app",
   "version": "1.0.1",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "CLI for creating new app.",
   "type": "module",
   "scripts": {
     "dev:build": "tsc --project tsconfig.development.json",
@@ -11,9 +10,18 @@
     "lint": "eslint",
     "test": "jest"
   },
-  "bin": "./bin/copy-template.js",
-  "keywords": [],
-  "author": "luohuidong (luohuidong01@126.com)",
+  "bin": "./bin/index.js",
+  "keywords": [
+    "create app",
+    "cli"
+  ],
+  "files": [
+    "bin/**/*.js"
+  ],
+  "author": {
+    "name": "luohuidong",
+    "email": "luohuidong01@126.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/luohuidong/app-template/issues"

@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - "packages/cli"
+      - "packages/cli/**"
 
 jobs:
   publish:
@@ -20,5 +20,4 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run prd:build -w ./packages/cli
-
       - run: npm publish -w ./packages/cli

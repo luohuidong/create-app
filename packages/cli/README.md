@@ -1,8 +1,6 @@
-# Template CLI 工具
+# Create App CLI Tool
 
-Teamplate CLI 用于快速将应用模板复制到当前目录
-
-## 使用
+## Usage
 
 ```bash
 npm init @luohuidong/app

@@ -1,14 +1,14 @@
-# App Template
+# Create App
 
-App Template 可用于快速搭建项目。
+Creating an App by running one command.
 
-## 使用
+## Usage
 
 ```bash
 npm init @luohuidong/app
 ```
 
-## 模板
+## Templates
 
 - [template-node](./packages/cli/README.md)
 - [template-koa-mongodb](./packages/template-koa-mongodb/README.md)

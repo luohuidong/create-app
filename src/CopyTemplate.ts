@@ -8,124 +8,113 @@ import AdmZip from "adm-zip";
 import { recurseDir } from "./fsUtils.js";
 import { errMsg } from "./errMsg.js";
 
-const octokit = new Octokit({
-  userAgent: "@luohuidong/template-cli",
-});
+const octokit = new Octokit();
 
 const timeout = 10000;
 
-export interface TemplateInfo {
-  name: string;
-  sha: string;
-}
-export type TemplatesInfo = {
-  [index: string]: TemplateInfo;
-};
-
 export default class CopyTemplate {
-  /** 获取模板数据 */
-  private async getTemplatesInfo(): Promise<TemplatesInfo> {
-    const spinner = ora("正在请求 GitHub 仓库中的应用模板列表").start();
+  /**
+   * get all organization template repositories's name
+   * @returns
+   */
+  private async _getTemplateRepoNames(): Promise<string[]> {
+    const spinner = ora("request templates list").start();
     try {
-      const response = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
-        owner: "luohuidong",
-        repo: "app-template",
-        path: "packages",
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
+      const response = await octokit.request("GET /orgs/{org}/repos", {
+        org: "web-app-template",
         request: {
           timeout,
         },
       });
 
-      const templatesInfo: TemplatesInfo = {};
-      const data = response.data as TemplateInfo[];
-      data.forEach((templateInfo) => {
-        if (templateInfo.name.startsWith("template")) {
-          templatesInfo[templateInfo.name] = templateInfo;
+      const templateRepoNames: string[] = [];
+      const data = response.data;
+      data.forEach((repo) => {
+        if (repo.name.startsWith("template")) {
+          templateRepoNames.push(repo.name);
         }
       });
 
-      spinner.succeed("请求应用模板列表成功");
+      spinner.succeed();
 
-      return templatesInfo;
+      return templateRepoNames;
     } catch (error) {
-      spinner.fail("请求应用模板列表失败");
+      spinner.fail();
       throw new Error(errMsg(errMsg));
     }
   }
 
-  async downloadZip(): Promise<string> {
+  /**
+   * download repository zipball
+   * @param repoName repository name
+   * @returns
+   */
+  private async _downloadRepoArchiveZip(repoName: string): Promise<string> {
     try {
       const response = await octokit.request("GET /repos/{owner}/{repo}/zipball/", {
-        owner: "luohuidong",
-        repo: "app-template",
+        owner: "web-app-template",
+        repo: repoName,
         headers: {
           Accept: "application/vnd.github.v3+json",
         },
       });
 
-      // 获取压缩的文件名称
+      // get zipball file name
       const contentDisposition = response.headers["content-disposition"] as string;
       const regexp = /filename=([\w-]+\.zip)/;
       const result = regexp.exec(contentDisposition) as RegExpExecArray;
       const filename = result[1];
 
-      // 将压缩文件的内容保存到本地
+      // save the zipball file
       const unit8Array = response.data;
       const fileAbsolutePath = path.resolve(process.cwd(), filename);
       fs.writeFileSync(fileAbsolutePath, Buffer.from(unit8Array));
+
       return fileAbsolutePath;
     } catch (error) {
-      console.log(
-        "🚀 ~ file: CopyTemplate.ts ~ line 160 ~ CopyTemplate ~ downloadZip ~ error",
-        error
-      );
       throw new Error(errMsg(error));
     }
   }
 
-  unZipFile(fileAbsolutePath: string): void {
+  private _unZipFile(fileAbsolutePath: string): void {
     // reading archives
     const zip = new AdmZip(fileAbsolutePath);
     zip.extractAllTo(process.cwd());
   }
 
   async copy(): Promise<void> {
-    const templatesInfo = await this.getTemplatesInfo();
-    const templateNames = Object.keys(templatesInfo);
+    const templateNames = await this._getTemplateRepoNames();
 
     const answers = await inquirer.prompt([
       {
         name: "templateName",
         type: "list",
-        message: "请选择模板",
+        message: "please select template",
         choices: templateNames,
       },
     ]);
 
     const templateName = answers.templateName;
 
-    const spinner = ora("项目初始化中").start();
+    const spinner = ora("project initialization").start();
 
     try {
-      // 下载仓库的 zip 包，并将该包压缩到当前目录
-      const zipFileAbsolutePath = await this.downloadZip();
-      this.unZipFile(zipFileAbsolutePath);
-      /** 解压后的文件夹路径 */
+      // download template repository zipball
+      const zipFileAbsolutePath = await this._downloadRepoArchiveZip(templateName);
+
+      this._unZipFile(zipFileAbsolutePath);
+      // the folder location of unzipping
       const upzipFolderAbsolutePath = zipFileAbsolutePath.replace(".zip", "");
-      /** 模板目录 */
-      const templateFolderDirPath = path.resolve(upzipFolderAbsolutePath, "packages", templateName);
-      /** 复制模板目录中的所有文件到当前工作目录 */
-      recurseDir(templateFolderDirPath, templateFolderDirPath, (fileInfo) => {
+
+      // copy template from unzip folder to current working directory
+      recurseDir(upzipFolderAbsolutePath, upzipFolderAbsolutePath, (fileInfo) => {
         const currentWorkDir = process.cwd();
 
         if (fileInfo.type === "dir") {
           try {
             fs.mkdirSync(path.resolve(currentWorkDir, fileInfo.relativePath));
           } catch (error) {
-            console.log(errMsg(error));
+            console.error(errMsg(error));
           }
         } else {
           fs.copyFileSync(
@@ -135,15 +124,15 @@ export default class CopyTemplate {
         }
       });
 
-      // 删除 zip 包和 zip 包解压出来的文件
+      // delete zipball and the folder of unzipping
       fs.rmSync(zipFileAbsolutePath);
       fs.rmSync(upzipFolderAbsolutePath, {
         recursive: true,
       });
-      spinner.succeed("项目初始化完毕");
+      spinner.succeed();
     } catch (error) {
-      spinner.fail("项目初始化失败");
-      console.log("🚀 ~ file: CopyTemplate.ts ~ line 121 ~ CopyTemplate ~ copy ~ error", error);
+      console.error("🚀 ~ file: CopyTemplate.ts ~ line 134 ~ CopyTemplate ~ copy ~ error", error);
+      spinner.fail();
     }
   }
 }

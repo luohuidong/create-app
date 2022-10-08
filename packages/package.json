@@ -1,0 +1,9 @@
+{
+  "name": "template-workspaces",
+  "private": true,
+  "workspaces": [
+    "template-express",
+    "template/koa-mongodb",
+    "template-node"
+  ]
+}

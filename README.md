@@ -5,11 +5,11 @@ Creating an App by running one command.
 ## Usage
 
 ```bash
-npm init @luohuidong/app
+npm init @app-template/app
 ```
 
 ## Templates
 
-- [template-node](./packages/cli/README.md)
-- [template-koa-mongodb](./packages/template-koa-mongodb/README.md)
-- [template-express](./packages/template-express/README.md)
+- [template-node](https://github.com/web-app-template/template-node-typescript)
+- [template-koa-mongodb](https://github.com/web-app-template/template-express-typescript)
+- [template-express](https://github.com/web-app-template/template-express-typescript)

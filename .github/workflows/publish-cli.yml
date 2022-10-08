@@ -1,12 +1,8 @@
 name: release
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - release
-    paths:
-      - "!packages/**"
+  release:
+    type: [created]
 
 jobs:
   publish:

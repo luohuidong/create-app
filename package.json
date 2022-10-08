@@ -4,9 +4,9 @@
   "description": "CLI for creating new app.",
   "type": "module",
   "scripts": {
-    "dev:build": "tsc --project tsconfig.development.json",
-    "prd:build": "tsc",
-    "prepublishOnly": "npm run prd:build",
+    "dev": "tsc --project tsconfig.development.json",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
     "lint": "eslint",
     "test": "jest"
   },

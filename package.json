@@ -1,6 +1,6 @@
 {
-  "name": "@luohuidong/create-app",
-  "version": "1.0.3",
+  "name": "@app-template/create-app",
+  "version": "1.0.0",
   "description": "CLI for creating new app.",
   "type": "module",
   "scripts": {

@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - release
     paths:
-      - "packages/cli/**"
+      - "!packages/**"
 
 jobs:
   publish:
@@ -19,7 +19,7 @@ jobs:
           node-version: 16
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
-      - run: npm run prd:build -w ./packages/cli
-      - run: npm publish -w ./packages/cli
+      - run: npm run build
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

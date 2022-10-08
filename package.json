@@ -24,13 +24,13 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/luohuidong/create-app/issues"
+    "url": "https://github.com/web-app-template/create-app/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:luohuidong/create-app.git"
+    "url": "git@github.com:web-app-template/create-app.git"
   },
-  "homepage": "https://github.com/luohuidong/create-app",
+  "homepage": "https://github.com/web-app-template/create-app",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
     "@types/adm-zip": "^0.5.0",

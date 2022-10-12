@@ -10,39 +10,12 @@ import { errMsg } from "./errMsg.js";
 
 const octokit = new Octokit();
 
-const timeout = 10000;
-
 export default class CopyTemplate {
-  /**
-   * get all organization template repositories's name
-   * @returns
-   */
-  private async _getTemplateRepoNames(): Promise<string[]> {
-    const spinner = ora("request templates list").start();
-    try {
-      const response = await octokit.request("GET /orgs/{org}/repos", {
-        org: "web-app-template",
-        request: {
-          timeout,
-        },
-      });
-
-      const templateRepoNames: string[] = [];
-      const data = response.data;
-      data.forEach((repo) => {
-        if (repo.name.startsWith("template")) {
-          templateRepoNames.push(repo.name);
-        }
-      });
-
-      spinner.succeed();
-
-      return templateRepoNames;
-    } catch (error) {
-      spinner.fail();
-      throw new Error(errMsg(errMsg));
-    }
-  }
+  private _templateNames = [
+    "template-node-typescript",
+    "template-express-typescript",
+    "template-koa-mongodb",
+  ];
 
   /**
    * download repository zipball
@@ -83,14 +56,12 @@ export default class CopyTemplate {
   }
 
   async copy(): Promise<void> {
-    const templateNames = await this._getTemplateRepoNames();
-
     const answers = await inquirer.prompt([
       {
         name: "templateName",
         type: "list",
         message: "please select template",
-        choices: templateNames,
+        choices: this._templateNames,
       },
     ]);
 

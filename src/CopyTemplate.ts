@@ -15,6 +15,7 @@ export default class CopyTemplate {
     "template-node-typescript",
     "template-express-typescript",
     "template-koa-mongodb",
+    "template-hexo-blog",
   ];
 
   /**

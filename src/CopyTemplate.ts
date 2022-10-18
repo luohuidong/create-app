@@ -14,6 +14,7 @@ export default class CopyTemplate {
   private _templateNames = [
     "template-node-typescript",
     "template-express-typescript",
+    "template-koa",
     "template-koa-mongodb",
     "template-hexo-blog",
   ];

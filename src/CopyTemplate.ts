@@ -1,7 +1,6 @@
 import path from "node:path";
 import fs from "node:fs";
 import { Octokit } from "@octokit/core";
-import inquirer from "inquirer";
 import ora from "ora";
 import AdmZip from "adm-zip";
 
@@ -11,24 +10,26 @@ import { errMsg } from "./errMsg.js";
 const octokit = new Octokit();
 
 export default class CopyTemplate {
-  private _templateNames = [
-    "template-node-typescript",
-    "template-express-typescript",
-    "template-koa",
-    "template-koa-mongodb",
-    "template-hexo-blog",
-  ];
+  private templateName: string;
+  private projectName: string;
+  private get projectFolderPath() {
+    return path.resolve(process.cwd(), this.projectName);
+  }
+
+  constructor(templateName: string, projectName: string) {
+    this.templateName = templateName;
+    this.projectName = projectName;
+  }
 
   /**
    * download repository zipball
-   * @param repoName repository name
-   * @returns
+   * @returns zipball file absolute path
    */
-  private async _downloadRepoArchiveZip(repoName: string): Promise<string> {
+  private async _downloadRepoArchiveZip(): Promise<string> {
     try {
       const response = await octokit.request("GET /repos/{owner}/{repo}/zipball/", {
         owner: "web-app-template",
-        repo: repoName,
+        repo: this.templateName,
         headers: {
           Accept: "application/vnd.github.v3+json",
         },
@@ -42,7 +43,7 @@ export default class CopyTemplate {
 
       // save the zipball file
       const unit8Array = response.data;
-      const fileAbsolutePath = path.resolve(process.cwd(), filename);
+      const fileAbsolutePath = path.resolve(this.projectFolderPath, filename);
       fs.writeFileSync(fileAbsolutePath, Buffer.from(unit8Array));
 
       return fileAbsolutePath;
@@ -54,48 +55,52 @@ export default class CopyTemplate {
   private _unZipFile(fileAbsolutePath: string): void {
     // reading archives
     const zip = new AdmZip(fileAbsolutePath);
-    zip.extractAllTo(process.cwd());
+    zip.extractAllTo(this.projectFolderPath);
+  }
+
+  private _changeProjectName() {
+    const packagejsonFilePath = path.resolve(this.projectFolderPath, "package.json");
+
+    const data = fs.readFileSync(packagejsonFilePath, {
+      encoding: "utf-8",
+    });
+
+    const tmp = JSON.parse(data) as {
+      name: string;
+    };
+    tmp.name = this.projectName;
+    fs.writeFileSync(packagejsonFilePath, JSON.stringify(tmp, null, 2));
   }
 
   async copy(): Promise<void> {
-    const answers = await inquirer.prompt([
-      {
-        name: "templateName",
-        type: "list",
-        message: "please select template",
-        choices: this._templateNames,
-      },
-    ]);
-
-    const templateName = answers.templateName;
-
     const spinner = ora("project initialization").start();
 
     try {
-      // download template repository zipball
-      const zipFileAbsolutePath = await this._downloadRepoArchiveZip(templateName);
+      fs.mkdirSync(this.projectFolderPath);
 
+      // download template repository zipball
+      const zipFileAbsolutePath = await this._downloadRepoArchiveZip();
       this._unZipFile(zipFileAbsolutePath);
       // the folder location of unzipping
       const upzipFolderAbsolutePath = zipFileAbsolutePath.replace(".zip", "");
 
       // copy template from unzip folder to current working directory
       recurseDir(upzipFolderAbsolutePath, upzipFolderAbsolutePath, (fileInfo) => {
-        const currentWorkDir = process.cwd();
-
         if (fileInfo.type === "dir") {
           try {
-            fs.mkdirSync(path.resolve(currentWorkDir, fileInfo.relativePath));
+            fs.mkdirSync(path.resolve(this.projectFolderPath, fileInfo.relativePath));
           } catch (error) {
             console.error(errMsg(error));
           }
         } else {
           fs.copyFileSync(
             fileInfo.absolutePath,
-            path.resolve(currentWorkDir, fileInfo.relativePath)
+            path.resolve(this.projectFolderPath, fileInfo.relativePath)
           );
         }
       });
+
+      this._changeProjectName();
 
       // delete zipball and the folder of unzipping
       fs.rmSync(zipFileAbsolutePath);

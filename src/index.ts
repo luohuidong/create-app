@@ -1,34 +1,38 @@
 #!/usr/bin/env node
 
-import fs from "node:fs";
 import inquirer from "inquirer";
 
 import CopyTemplate from "./CopyTemplate.js";
 import { errMsg } from "./errMsg.js";
 
-const result = fs.readdirSync(process.cwd());
+try {
+  const answers = await inquirer.prompt<{
+    projectName: string;
+    template: string;
+  }>([
+    {
+      name: "projectName",
+      type: "input",
+      message: "project name:",
+    },
+    {
+      name: "template",
+      type: "list",
+      message: "template:",
+      choices: [
+        "template-node-typescript",
+        "template-express-typescript",
+        "template-koa",
+        "template-koa-mongodb",
+        "template-hexo-blog",
+      ],
+    },
+  ]);
 
-function copy() {
-  const copyTemplate = new CopyTemplate();
+  const { template, projectName } = answers;
+
+  const copyTemplate = new CopyTemplate(template, projectName);
   copyTemplate.copy();
-}
-
-if (result.length > 0) {
-  try {
-    const answers = await inquirer.prompt([
-      {
-        name: "folderNotEmpty",
-        type: "confirm",
-        message: "当前目录不是一个空目录，是否继续？",
-      },
-    ]);
-
-    if (answers.folderNotEmpty) {
-      copy();
-    }
-  } catch (err) {
-    console.log(errMsg(err));
-  }
-} else {
-  copy();
+} catch (err) {
+  console.log(errMsg(err));
 }

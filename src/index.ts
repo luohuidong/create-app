@@ -20,8 +20,8 @@ try {
       type: "list",
       message: "template:",
       choices: [
-        "template-node-typescript",
-        "template-express-typescript",
+        "template-node",
+        "template-express",
         "template-koa",
         "template-koa-mongodb",
         "template-hexo-blog",

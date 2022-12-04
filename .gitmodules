@@ -1,0 +1,6 @@
+[submodule "template/node"]
+	path = template/node
+	url = https://github.com/web-app-template/template-node.git
+[submodule "template/node-koa-restful"]
+	path = template/node-koa-restful
+	url = https://github.com/web-app-template/template-node-koa-restful.git

@@ -4,6 +4,7 @@ import inquirer from "inquirer";
 
 import CopyTemplate from "./CopyTemplate.js";
 import { errMsg } from "./errMsg.js";
+import fs from "node:fs";
 
 try {
   const answers = await inquirer.prompt<{
@@ -19,13 +20,7 @@ try {
       name: "template",
       type: "list",
       message: "template:",
-      choices: [
-        "template-node",
-        "template-express",
-        "template-koa",
-        "template-koa-mongodb",
-        "template-hexo-blog",
-      ],
+      choices: fs.readdirSync(new URL("../template", import.meta.url)),
     },
   ]);
 

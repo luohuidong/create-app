@@ -45,8 +45,6 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@octokit/core": "^4.1.0",
-    "adm-zip": "^0.5.9",
     "inquirer": "^9.1.4",
     "ora": "^6.1.2"
   },

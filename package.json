@@ -1,6 +1,6 @@
 {
   "name": "@app-template/create-app",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "CLI for creating new app.",
   "type": "module",
   "scripts": {
@@ -17,7 +17,8 @@
     "cli"
   ],
   "files": [
-    "bin/**/*.js"
+    "bin/**/*.js",
+    "template/**/*"
   ],
   "author": {
     "name": "luohuidong",

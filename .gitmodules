@@ -4,3 +4,12 @@
 [submodule "template/node-koa-restful"]
 	path = template/node-koa-restful
 	url = https://github.com/web-app-template/template-node-koa-restful.git
+[submodule "template/node-express-restful"]
+	path = template/node-express-restful
+	url = https://github.com/web-app-template/template-node-express-restful.git
+[submodule "template/node-koa-restful-mongodb"]
+	path = template/node-koa-restful-mongodb
+	url = git@github.com:web-app-template/template-node-koa-restful-mongodb.git
+[submodule "template/hexo-blog"]
+	path = template/hexo-blog
+	url = git@github.com:web-app-template/template-hexo-blog.git

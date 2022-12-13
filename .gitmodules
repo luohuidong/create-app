@@ -9,7 +9,7 @@
 	url = https://github.com/web-app-template/template-node-express-restful.git
 [submodule "template/node-koa-restful-mongodb"]
 	path = template/node-koa-restful-mongodb
-	url = git@github.com:web-app-template/template-node-koa-restful-mongodb.git
+	url = https://github.com/web-app-template/template-node-koa-restful-mongodb.git
 [submodule "template/hexo-blog"]
 	path = template/hexo-blog
-	url = git@github.com:web-app-template/template-hexo-blog.git
+	url = https://github.com/web-app-template/template-hexo-blog.git

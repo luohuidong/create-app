@@ -13,3 +13,6 @@
 [submodule "template/hexo-blog"]
 	path = template/hexo-blog
 	url = https://github.com/web-app-template/template-hexo-blog.git
+[submodule "template/vitepress-vue-component"]
+	path = template/vitepress-vue-component
+	url = https://github.com/web-app-template/template-vitepress-vue-component.git

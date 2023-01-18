@@ -22,3 +22,6 @@
 	path = template/vitepress-vue-component
 	url = https://github.com/web-app-template/template-vitepress-vue-component.git
 	branch = main
+[submodule "template/vue3"]
+	path = template/vue3
+	url = https://github.com/web-app-template/template-vue3.git

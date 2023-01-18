@@ -15,3 +15,4 @@ npm init @app-template/app@latest
 - [template-koa-restful-mongodb](https://github.com/web-app-template/template-node-koa-restful-mongodb)
 - [node-express-restful](https://github.com/web-app-template/template-node-express-restful)
 - [template-hexo-blog](https://github.com/web-app-template/template-hexo-blog)
+- [template-vue3](https://github.com/web-app-template/template-vue3)

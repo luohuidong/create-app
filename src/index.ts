@@ -20,7 +20,7 @@ try {
       name: "template",
       type: "list",
       message: "template:",
-      choices: fs.readdirSync(new URL("../template", import.meta.url)),
+      choices: fs.readdirSync(new URL("../templates", import.meta.url)),
     },
   ]);
 

@@ -1,0 +1,24 @@
+{
+  "name": "vitepress-template",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run generate && vitepress dev docs",
+    "build": "npm run generate && vitepress build docs",
+    "serve": "vitepress serve docs",
+    "generate": "ts-node ./script/generateNav.ts && ts-node ./script/generateSidebar.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "flexsearch": "^0.7.31",
+    "markdown-it": "^13.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4",
+    "vitepress": "1.0.0-alpha.40",
+    "vitepress-plugin-search": "1.0.4-alpha.18",
+    "vue": "^3.2.45"
+  }
+}

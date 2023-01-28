@@ -2,3 +2,4 @@ dist
 node_modules
 docs/.vitepress/nav.json
 docs/.vitepress/sidebar.json
+docs/.vitepress/cache

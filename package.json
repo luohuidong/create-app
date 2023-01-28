@@ -18,7 +18,7 @@
   ],
   "files": [
     "bin/**/*.js",
-    "template/**/*"
+    "templates/**/*"
   ],
   "author": {
     "name": "luohuidong",

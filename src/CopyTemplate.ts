@@ -9,7 +9,7 @@ import { errMsg } from "./errMsg.js";
 export default class CopyTemplate {
   private templateName: string;
   private get templateFolderPath() {
-    return fileURLToPath(new URL(`../template/${this.templateName}`, import.meta.url));
+    return fileURLToPath(new URL(`../templates/${this.templateName}`, import.meta.url));
   }
   private projectName: string;
   private get projectFolderPath() {

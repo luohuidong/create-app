@@ -10,9 +10,9 @@ npm init @app-template/app@latest
 
 ## Templates
 
-- [template-node](https://github.com/web-app-template/template-node)
-- [template-koa-restful](https://github.com/web-app-template/template-node-koa-restful)
-- [template-koa-restful-mongodb](https://github.com/web-app-template/template-node-koa-restful-mongodb)
-- [node-express-restful](https://github.com/web-app-template/template-node-express-restful)
-- [template-hexo-blog](https://github.com/web-app-template/template-hexo-blog)
-- [template-vue3](https://github.com/web-app-template/template-vue3)
+- [node](./templates/node/README.md)
+- [node-koa-restful](./templates/node-koa-restful/README.md)
+- [node-koa-restful-mongodb](./templates/node-koa-restful-mongodb/README.md)
+- [node-express-restful](./templates/node-express-restful/README.md)
+- [hexo-blog](./templates/hexo-blog/README.md)
+- [vue3](./templates/vue3/README.md)

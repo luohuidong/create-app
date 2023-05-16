@@ -2,3 +2,6 @@
 	path = templates/node-koa-restful
 	url = git@github.com:web-app-template/template-node-koa-restful.git
   branch = main
+[submodule "templates/node"]
+	path = templates/node
+	url = https://github.com/web-app-template/template-node.git

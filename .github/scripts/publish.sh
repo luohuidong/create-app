@@ -15,5 +15,5 @@ else
 
   npm install
   npm run build
-  npm run publish
+  npm publish
 fi

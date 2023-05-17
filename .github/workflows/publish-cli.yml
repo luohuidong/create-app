@@ -24,5 +24,5 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
 
       - name: Run publish script
-        run: ./github/scripts/publish.sh
+        run: .github/scripts/publish.sh
         shell: bash

@@ -19,7 +19,7 @@ npm init @app-template/app@latest
 
 ## Templates
 
-- [node](./templates/node/README.md)
+- [node](https://github.com/web-app-template/template-node)
 - [node-koa-restful](https://github.com/web-app-template/template-node-koa-restful)
 - [node-koa-restful-mongodb](./templates/node-koa-restful-mongodb/README.md)
 - [node-express-restful](./templates/node-express-restful/README.md)

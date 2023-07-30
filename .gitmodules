@@ -7,3 +7,6 @@
 [submodule "templates/node-express-restful"]
 	path = templates/node-express-restful
 	url = https://github.com/web-app-template/template-node-express-restful.git
+[submodule "templates/node-koa-restful-mongodb"]
+	path = templates/node-koa-restful-mongodb
+	url = https://github.com/web-app-template/template-node-koa-restful-mongodb.git

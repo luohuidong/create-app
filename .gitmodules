@@ -1,7 +1,9 @@
 [submodule "templates/node-koa-restful"]
 	path = templates/node-koa-restful
-	url = git@github.com:web-app-template/template-node-koa-restful.git
-  branch = main
+	url = https://github.com/web-app-template/template-node-koa-restful.git
 [submodule "templates/node"]
 	path = templates/node
 	url = https://github.com/web-app-template/template-node.git
+[submodule "templates/node-express-restful"]
+	path = templates/node-express-restful
+	url = https://github.com/web-app-template/template-node-express-restful.git

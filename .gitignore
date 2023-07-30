@@ -4,6 +4,4 @@ coverage
 tmp
 bin
 .idea
-package-lock.json
-pnpm-lock.yaml
 .DS_Store

@@ -21,7 +21,7 @@ npm init @app-template/app@latest
 
 - [node](https://github.com/web-app-template/template-node)
 - [node-koa-restful](https://github.com/web-app-template/template-node-koa-restful)
-- [node-koa-restful-mongodb](./templates/node-koa-restful-mongodb/README.md)
-- [node-express-restful](./templates/node-express-restful/README.md)
+- [node-koa-restful-mongodb](https://github.com/web-app-template/template-node-koa-restful-mongodb)
+- [node-express-restful](https://github.com/web-app-template/template-node-express-restful)
 - [hexo-blog](./templates/hexo-blog/README.md)
-- [vue3](./templates/vue3/README.md)
+- [vue3](https://github.com/web-app-template/template-vue3)

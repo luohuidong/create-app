@@ -5,8 +5,7 @@
     "composite": true /* Enable project compilation */,
     "incremental": true /* Enable incremental compilation */,
     "tsBuildInfoFile": "./dist/.tsbuildinfo" /* Specify file to store incremental compilation information */,
-    "diagnostics": true,
-    "watch": true
+    "diagnostics": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "test"]

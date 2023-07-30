@@ -10,3 +10,6 @@
 [submodule "templates/node-koa-restful-mongodb"]
 	path = templates/node-koa-restful-mongodb
 	url = https://github.com/web-app-template/template-node-koa-restful-mongodb.git
+[submodule "templates/vue3"]
+	path = templates/vue3
+	url = https://github.com/web-app-template/template-vue3.git

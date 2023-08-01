@@ -10,10 +10,10 @@ else
 
   git add templates/*
   git commit -m "Update templates"
-  npm version patch
+  pnpm version patch
   git push
 
-  npm install
-  npm run build
-  npm publish
+  pnpm install
+  pnpm run build
+  pnpm publish
 fi

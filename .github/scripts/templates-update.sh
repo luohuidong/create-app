@@ -11,7 +11,7 @@ else
   git add templates/*
   git commit -m "Update templates"
   pnpm version patch
-  git push
+  git push origin --tags
 
   pnpm install
   pnpm run build

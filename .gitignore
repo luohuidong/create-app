@@ -13,5 +13,3 @@ coverage
 # IDEs
 .idea
 
-# Submobules .git file
-templates/**/.git

@@ -50,6 +50,8 @@ export default class CopyTemplate {
             console.error(errMsg(error));
           }
         } else {
+          if (fileInfo.name === ".git") return;
+
           fs.copyFileSync(
             fileInfo.absolutePath,
             path.resolve(this.projectFolderPath, fileInfo.relativePath)
@@ -61,7 +63,7 @@ export default class CopyTemplate {
 
       spinner.succeed();
     } catch (error) {
-      console.error("🚀 ~ file: CopyTemplate.ts ~ line 134 ~ CopyTemplate ~ copy ~ error", error);
+      console.error("error: ", error);
       spinner.fail();
     }
   }

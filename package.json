@@ -9,7 +9,8 @@
     "prepublishOnly": "npm run build",
     "lint": "eslint",
     "test": "jest",
-    "cz": "cz"
+    "cz": "cz",
+    "tar-templates": "./scripts/tar-templates.sh"
   },
   "bin": "./bin/index.js",
   "keywords": [
@@ -18,7 +19,7 @@
   ],
   "files": [
     "bin/**/*.js",
-    "templates/**/*"
+    "tmp/**/*"
   ],
   "author": {
     "name": "luohuidong",
@@ -41,12 +42,12 @@
     "@typescript-eslint/parser": "^6.2.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.9.0",
-    "prettier": "^3.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "inquirer": "^9.2.9",
+    "inquirer": "^9.2.10",
     "ora": "^7.0.1"
   },
   "config": {

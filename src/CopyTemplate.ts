@@ -2,14 +2,15 @@ import path from "node:path";
 import fs from "node:fs";
 import ora from "ora";
 import { fileURLToPath } from "node:url";
-
-import { recurseDir } from "./fsUtils.js";
-import { errMsg } from "./errMsg.js";
+import tar from "tar";
 
 export default class CopyTemplate {
   private templateName: string;
-  private get templateFolderPath() {
-    return fileURLToPath(new URL(`../templates/${this.templateName}`, import.meta.url));
+  private get templateTarFileName() {
+    return `${this.templateName}.tar.gz`;
+  }
+  private get templateTarFilePath() {
+    return fileURLToPath(new URL(`../tmp/${this.templateTarFileName}`, import.meta.url));
   }
   private projectName: string;
   private get projectFolderPath() {
@@ -39,26 +40,28 @@ export default class CopyTemplate {
     const spinner = ora("project initialization").start();
 
     try {
-      fs.mkdirSync(this.projectFolderPath);
+      const tarFileDestPath = path.resolve(process.cwd(), this.templateTarFileName);
 
-      // copy template from unzip folder to current working directory
-      recurseDir(this.templateFolderPath, this.templateFolderPath, (fileInfo) => {
-        if (fileInfo.type === "dir") {
-          try {
-            fs.mkdirSync(path.resolve(this.projectFolderPath, fileInfo.relativePath));
-          } catch (error) {
-            console.error(errMsg(error));
-          }
-        } else {
-          if (fileInfo.name === ".git") return;
+      // copy template tar.gz file to current working directory
+      fs.copyFileSync(this.templateTarFilePath, tarFileDestPath);
 
-          fs.copyFileSync(
-            fileInfo.absolutePath,
-            path.resolve(this.projectFolderPath, fileInfo.relativePath)
-          );
-        }
+      // unzip tar.gz file
+      await tar.x({
+        file: path.resolve(tarFileDestPath),
       });
 
+      // delete tar.gz file
+      fs.rmSync(tarFileDestPath);
+
+      // modify folder name
+      fs.renameSync(this.templateName, this.projectName);
+
+      // delete .git file
+      try {
+        fs.rmSync(path.resolve(this.projectFolderPath, ".git"));
+      } catch {}
+
+      // change project name in package.json
       this._changeProjectName();
 
       spinner.succeed();

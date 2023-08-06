@@ -5,6 +5,7 @@ import inquirer from "inquirer";
 import CopyTemplate from "./CopyTemplate.js";
 import { errMsg } from "./errMsg.js";
 import fs from "node:fs";
+import path from "node:path";
 
 try {
   const answers = await inquirer.prompt<{
@@ -20,7 +21,9 @@ try {
       name: "template",
       type: "list",
       message: "template:",
-      choices: fs.readdirSync(new URL("../templates", import.meta.url)),
+      choices: fs
+        .readdirSync(new URL("../tmp", import.meta.url))
+        .map((filename) => path.basename(filename, ".tar.gz")),
     },
   ]);
 

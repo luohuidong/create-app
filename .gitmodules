@@ -13,3 +13,6 @@
 [submodule "templates/vue3"]
 	path = templates/vue3
 	url = https://github.com/web-app-template/template-vue3.git
+[submodule "templates/vitepress"]
+	path = templates/vitepress
+	url = https://github.com/web-app-template/template-vitepress.git

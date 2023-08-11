@@ -10,11 +10,12 @@ import path from "node:path";
 
 program.name("create-app").description("CLI for creating a JavaScript new app");
 program
-  .option("-t, --template <templateName>", "template name")
-  .option("-n, --name <projectName>", "project name")
+  .argument("<name>", "project name")
+  .option("--template <templateName>", "template name")
   .parse();
 
-const { template, name } = program.opts();
+const { template } = program.opts();
+const name = program.args[0];
 
 if (template && name) {
   const copyTemplate = new CopyTemplate(template, name);

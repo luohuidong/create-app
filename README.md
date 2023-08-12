@@ -5,7 +5,7 @@ Creating an App by running one command.
 ## Usage
 
 ```bash
-npm init @app-template/app@latest
+npm create @app-template/app@latest
 ```
 
 ## Contribution guidelines

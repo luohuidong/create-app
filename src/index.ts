@@ -10,7 +10,7 @@ import path from "node:path";
 
 program.name("create-app").description("CLI for creating a JavaScript new app");
 program
-  .argument("<name>", "project name")
+  .argument("[name]", "project name")
   .option("--template <templateName>", "template name")
   .parse();
 

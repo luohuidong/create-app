@@ -16,3 +16,6 @@
 [submodule "templates/vitepress"]
 	path = templates/vitepress
 	url = https://github.com/web-app-template/template-vitepress.git
+[submodule "templates/vue3-ui-lib"]
+	path = templates/vue3-ui-lib
+	url = https://github.com/web-app-template/template-vue3-ui-lib.git

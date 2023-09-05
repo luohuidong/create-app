@@ -25,3 +25,4 @@ npm create @app-template/app@latest
 - [node-express-restful](https://github.com/web-app-template/template-node-express-restful)
 - [hexo-blog](./templates/hexo-blog/README.md)
 - [vue3](https://github.com/web-app-template/template-vue3)
+- [vue3-ui-lib](https://github.com/web-app-template/template-vue3-ui-lib)

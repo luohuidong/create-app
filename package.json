@@ -36,22 +36,22 @@
   "homepage": "https://github.com/web-app-template/create-app",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.2",
-    "@types/adm-zip": "^0.5.0",
+    "@types/adm-zip": "^0.5.1",
     "@types/inquirer": "^9.0.3",
-    "@types/tar": "^6.1.5",
-    "@typescript-eslint/eslint-plugin": "^6.2.1",
-    "@typescript-eslint/parser": "^6.2.1",
+    "@types/tar": "^6.1.6",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.46.0",
+    "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
-    "prettier": "^3.0.1",
-    "typescript": "^5.1.6"
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "commander": "^11.0.0",
-    "inquirer": "^9.2.10",
+    "inquirer": "^9.2.11",
     "ora": "^7.0.1",
-    "tar": "^6.1.15"
+    "tar": "^6.2.0"
   },
   "config": {
     "commitizen": {

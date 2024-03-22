@@ -26,3 +26,4 @@ npm create @app-template/app@latest
 - [hexo-blog](./templates/hexo-blog/README.md)
 - [vue3](https://github.com/web-app-template/template-vue3)
 - [vue3-ui-lib](https://github.com/web-app-template/template-vue3-ui-lib)
+- [obsidian](https://github.com/web-app-template/template-obsidian)

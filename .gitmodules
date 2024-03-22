@@ -19,3 +19,6 @@
 [submodule "templates/vue3-ui-lib"]
 	path = templates/vue3-ui-lib
 	url = https://github.com/web-app-template/template-vue3-ui-lib.git
+[submodule "templates/obsidian"]
+	path = templates/obsidian
+	url = https://github.com/web-app-template/template-obsidian.git

@@ -1,15 +1,1 @@
-.DS_Store
-
-# Dependency directories
 node_modules
-
-# generate output
-bin
-tmp
-
-# Coverage directory
-coverage
-
-# IDEs
-.idea
-

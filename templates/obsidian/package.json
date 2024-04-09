@@ -1,0 +1,26 @@
+{
+  "name": "note-frontend",
+  "description": "",
+  "private": true,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "./scripts/build.sh",
+    "preview": "http-server public"
+  },
+  "devDependencies": {
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__traverse": "^7.20.5",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.28",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.23.6",
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "@babel/types": "^7.24.0",
+    "js-yaml": "^4.1.0"
+  }
+}

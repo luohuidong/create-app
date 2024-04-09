@@ -1,0 +1,64 @@
+{
+  "name": "koa-mongodb-template",
+  "version": "1.0.0",
+  "description": "Koa mongodb template",
+  "private": true,
+  "scripts": {
+    "dev:build": "tsc --project tsconfig.development.json",
+    "dev:serve": "cross-env NODE_ENV=development nodemon --watch dist dist/index.js",
+    "prd:build": "tsc",
+    "commit": "cz",
+    "lint": "eslint",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "_moduleAliases": {
+    "@controllers": "dist/controllers",
+    "@models": "dist/models",
+    "@middlewares": "dist/middlewares"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/bcrypt": "^5.0.0",
+    "@types/jest": "^29.1.2",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/koa": "^2.13.5",
+    "@types/koa__router": "^12.0.0",
+    "@types/koa-bodyparser": "^4.3.8",
+    "@types/koa-json-error": "^3.1.4",
+    "@types/lodash": "^4.14.186",
+    "@types/node": "^16.11.66",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "jest": "^29.2.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^10.0.0",
+    "joi": "^17.6.2",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-json-error": "^3.1.2",
+    "koa-jwt": "^4.0.3",
+    "lodash": "^4.17.21",
+    "module-alias": "^2.2.2",
+    "mongodb": "^4.10.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

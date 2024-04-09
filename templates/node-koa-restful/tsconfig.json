@@ -1,0 +1,17 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": "./src",
+    "forceConsistentCasingInFileNames": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "outDir": "./dist",
+    "removeComments": true,
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "target": "ESNext"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "test"]
+}

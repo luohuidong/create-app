@@ -1,0 +1,36 @@
+{
+  "name": "node-template",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "dev": "tsc --project tsconfig.development.json --watch",
+    "build": "tsc --project tsconfig.production.json",
+    "build:doc": "typedoc --tsconfig tsconfig.production.json",
+    "lint": "eslint",
+    "test": "node --enable-source-maps --test dist/",
+    "test:watch": "node --enable-source-maps --test --watch dist/",
+    "cz": "cz"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.3",
+    "@types/node": "^20.11.25",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "typedoc": "^0.25.11",
+    "typescript": "^5.4.2"
+  }
+}

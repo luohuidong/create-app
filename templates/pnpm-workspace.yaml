@@ -1,0 +1,5 @@
+packages:
+  - "hexo*"
+  - "node*"
+  - "obsidian*"
+  - "vue3*"

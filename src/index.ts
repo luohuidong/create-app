@@ -36,7 +36,8 @@ if (template && name) {
         type: "list",
         message: "template:",
         choices: fs
-          .readdirSync(new URL("../tmp", import.meta.url))
+          .readdirSync(new URL("../templates", import.meta.url))
+          .filter((filename) => filename.endsWith(".tar.gz"))
           .map((filename) => path.basename(filename, ".tar.gz")),
       },
     ]);

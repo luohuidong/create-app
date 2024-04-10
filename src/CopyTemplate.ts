@@ -10,7 +10,7 @@ export default class CopyTemplate {
     return `${this.templateName}.tar.gz`;
   }
   private get templateTarFilePath() {
-    return fileURLToPath(new URL(`../tmp/${this.templateTarFileName}`, import.meta.url));
+    return fileURLToPath(new URL(`../templates/${this.templateTarFileName}`, import.meta.url));
   }
   private projectName: string;
   private get projectFolderPath() {

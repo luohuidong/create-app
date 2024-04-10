@@ -1,15 +1,62 @@
 {
-  "name": "create-app-workspace",
-  "private": true,
-  "keywords": [],
-  "author": "luohuidong",
-  "license": "MIT",
+  "name": "@app-template/create-app",
+  "version": "1.2.1",
+  "description": "CLI for creating new app.",
+  "type": "module",
   "scripts": {
-    "cz": "cz"
+    "dev": "tsc --project tsconfig.development.json --watch",
+    "build": "tsc && pnpm run tar-templates",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint",
+    "test": "jest",
+    "cz": "cz",
+    "tar-templates": "node ./scripts/tar-templates.js"
+  },
+  "bin": "./bin/index.js",
+  "keywords": [
+    "create app",
+    "cli"
+  ],
+  "files": [
+    "bin/**/*.js",
+    "templates/*.tar.gz"
+  ],
+  "author": {
+    "name": "luohuidong",
+    "email": "luohuidong01@126.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/web-app-template/create-app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:web-app-template/create-app.git"
+  },
+  "homepage": "https://github.com/web-app-template/create-app",
+  "engines": {
+    "node": ">=20"
   },
   "devDependencies": {
+    "@tsconfig/recommended": "^1.0.3",
+    "@types/adm-zip": "^0.5.5",
+    "@types/inquirer": "^9.0.7",
+    "@types/tar": "^6.1.11",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3",
+    "zx": "^8.0.1"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "inquirer": "^9.2.14",
+    "ora": "^8.0.1",
+    "tar": "^6.2.0"
   },
   "config": {
     "commitizen": {

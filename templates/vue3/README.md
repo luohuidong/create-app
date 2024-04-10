@@ -12,7 +12,6 @@
 - [x] Prettier
 - [x] ESlint
 - [ ] Stylelint
-- [x] Husky
 - [ ] lint-staged
 - [x] commitlint
 - [x] Commitizen

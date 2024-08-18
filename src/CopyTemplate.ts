@@ -56,9 +56,6 @@ export default class CopyTemplate {
       // modify folder name
       fs.renameSync(this.templateName, this.projectName);
 
-      // delete .git file
-      fs.rmSync(path.resolve(this.projectFolderPath, ".git"));
-
       // change project name in package.json
       this._changeProjectName();
 

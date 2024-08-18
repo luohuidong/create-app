@@ -2,7 +2,7 @@ import path from "node:path";
 import fs from "node:fs";
 import ora from "ora";
 import { fileURLToPath } from "node:url";
-import tar from "tar";
+import * as tar from "tar";
 
 export default class CopyTemplate {
   private templateName: string;
@@ -57,9 +57,7 @@ export default class CopyTemplate {
       fs.renameSync(this.templateName, this.projectName);
 
       // delete .git file
-      try {
-        fs.rmSync(path.resolve(this.projectFolderPath, ".git"));
-      } catch {}
+      fs.rmSync(path.resolve(this.projectFolderPath, ".git"));
 
       // change project name in package.json
       this._changeProjectName();
